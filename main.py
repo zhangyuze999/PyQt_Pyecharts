@@ -14,12 +14,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 # from PyQt5.QtWebKitWidgets import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import *
-
 # from PyQt5.QtWidgets import QAction, QMainWindow
-# from qgis.core import *
-# from qgis.gui import *
-# from qgis.PyQt.QtGui import *
-# from qgis.PyQt.QtGui import QColor
+from qgis.core import *
+from qgis.gui import *
+from qgis.PyQt.QtGui import *
+from qgis.PyQt.QtGui import QColor
 
 # from ui_echarts import Ui_Form
 #%%
@@ -32,7 +31,7 @@ class MyWnd(QWidget):
         super(MyWnd, self).__init__()
         # self.resize(1200,1000)
         # self.maximumWidth()
-        self.maximumHeight()
+        # self.maximumHeight()
         # self.showMaximized()
         self.setupUi()
 
@@ -40,28 +39,32 @@ class MyWnd(QWidget):
         self.verticalLayout = QtWidgets.QVBoxLayout(self)
         self.verticalLayout.setObjectName("verticalLayout")
 
-        # self.project = QgsProject.instance()
-        # self.canvas = QgsMapCanvas() #QWebEngineView()
-        # self.canvas.setCanvasColor(Qt.white)
-        # self.crs = QgsCoordinateReferenceSystem("EPSG:4326")
-        # self.canvas.setDestinationCrs(self.crs)
-        # self.bridge = QgsLayerTreeMapCanvasBridge(self.project.layerTreeRoot(), self.canvas)
-        #
-        # self.urlWithParams = 'type=xyz&url=https://a.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&crs=EPSG3857'
-        # self.osm_lyr = QgsRasterLayer("type=xyz&url=" + self.urlWithParams, 'OSM', "wms")
-        # self.bing_virtual_earth = "http://ecn.t3.tiles.virtualearth.net/tiles/a%7Bq%7D.jpeg?g%3D1&zmax=19&zmin=1"
-        # self.bingLyr = QgsRasterLayer("type=xyz&url=" + self.bing_virtual_earth, 'BING', "wms")
-        #
-        # self.rlayer = QgsRasterLayer(r"C:\Users\zhangyz\OneDrive\2.科研工作\2021-08_广西地质灾害\公路滑坡风险监测预警系统示范平台\After-Preprocessed\Antecedent_Rainfall_20220328_30arcsec.cut.tif")
-        # self.project.addMapLayer(self.rlayer, True)
-        # self.canvas.refresh()
-        # self.canvas.show()
-        # self.spilter_1.addWidget(self.canvas)
+
         self.spilter_1 = QtWidgets.QSplitter(QtCore.Qt.Vertical)
-        self.map = QWebEngineView()
-        self.map.load(QtCore.QUrl("https://map.baidu.com"))
-        self.spilter_1.addWidget(self.map)
-        self.verticalLayout.addWidget(self.spilter_1)
+        self.project = QgsProject.instance()
+        self.canvas = QgsMapCanvas() #QWebEngineView()
+        self.canvas.setCanvasColor(QtCore.Qt.white)
+
+        self.crs = QgsCoordinateReferenceSystem("EPSG:3857")
+        self.canvas.setDestinationCrs(self.crs)
+        self.bridge = QgsLayerTreeMapCanvasBridge(self.project.layerTreeRoot(), self.canvas)
+        
+        self.urlWithParams = 'type=xyz&url=https://a.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&crs=EPSG3857'
+        self.osm_lyr = QgsRasterLayer("type=xyz&url=" + self.urlWithParams, 'OSM', "wms")
+        self.bing_virtual_earth = "http://ecn.t3.tiles.virtualearth.net/tiles/a%7Bq%7D.jpeg?g%3D1&zmax=19&zmin=1"
+        self.bingLyr = QgsRasterLayer("type=xyz&url=" + self.bing_virtual_earth, 'BING', "wms")
+        
+        self.rlayer = QgsRasterLayer(r"D:\OneDrive\2.科研工作\2021-08_广西地质灾害\公路滑坡风险监测预警系统示范平台\After-Preprocessed\Antecedent_Rainfall_20220328_30arcsec.cut.tif")
+        self.project.addMapLayer(self.osm_lyr, True)
+
+        self.canvas.refresh()
+        self.canvas.show()
+        self.spilter_1.addWidget(self.canvas)
+
+        # self.map = QWebEngineView()
+        # self.map.load(QtCore.QUrl("https://map.baidu.com"))
+        # self.spilter_1.addWidget(self.map)
+        self.verticalLayout.addWidget(self.canvas)
 
         self.spilter_h = QtWidgets.QSplitter(QtCore.Qt.Horizontal)
         self.echart_2 = QWebEngineView()
@@ -84,15 +87,16 @@ class MyWnd(QWidget):
             # .set_global_opts(title_opts={"text": "主标题", "subtext": "副标题"})
         )
         bar.render(r'RR_bar.html')
-        self.resize_html(r'RR_bar.html')
+        # self.resize_html(r'RR_bar.html')
         self.echart_2.load(QtCore.QUrl("file:///RR_bar.html"))
+
         self.echart_3 = QWebEngineView()
         self.echart_3.load(QtCore.QUrl("file:///RR_bar.html"))
+
         self.spilter_h.addWidget(self.echart_3)
         self.spilter_h.addWidget(self.echart_2)
         self.verticalLayout.addWidget(self.spilter_h)
 
-        self.spliter_2 = QtWidgets.QSplitter(QtCore.Qt.Vertical)
         self.echart_1 = QWebEngineView()
         self.echart_1.load(QtCore.QUrl("file:///RR_bar.html"))
         self.spilter_1.addWidget(self.echart_1)
