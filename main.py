@@ -20,6 +20,7 @@ from qgis.gui import *
 from qgis.PyQt.QtGui import *
 from qgis.PyQt.QtGui import QColor
 
+
 # from ui_echarts import Ui_Form
 #%%
 class MyWnd(QWidget):
