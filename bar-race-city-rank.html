@@ -1,0 +1,113 @@
+<!--
+	THIS EXAMPLE WAS DOWNLOADED FROM https://echarts.apache.org/examples/zh/editor.html?c=bar-race&theme=dark&code=MYewdgzgLgBAJgQygmBeGBtAugbgFABmIATjABQA2AprAJZowAMOM9APDAKwsDUPtAShgBvPDHhIEAOgAOAVwgALMgFkkiqcRBywcVes0JdIALZkhAKhgAmRowED8AXzwgZUWuAajxADwCCvrQQAFwiYuIwJgi-YQDkiMhqvnERTgA0EQCegcFhPpFQWTJU8cBIVADmJFlxmZESyGEYcYDqyoCB2oBAenUwcYBCFoDp5t3pvYB-boBOQcO9gM_mgHu6U3GA6MqA7rbdWPWRtGAAblTEEKUwUMRyVBviRrTRHuAAInLESJ5gYQDMducwl9fP9483YAAqjJEod3oxPtFYjAACwwAD08Jg4AoWSOiioMAoCGIlSo0BgrxgACMcRAYAB3WgUCgkzFwYIybFZKhwNIbA7EWj45oRcQFBrEKgICgeExUADKJCgYWOp0-4jACHF8QAGnU-YVioc4qTiBqGuJEggwsaFViEMSqBR8pqGkoQBTZScznbIjIQBBaAD4lzKoooAbDeJtiLTv4wFcnuBnac3S4GgmYOsItQ8bpbfbFI7Y1R2RFvtGwH8i2EIQXIz87g8i8DQW87OWLpWiwBRBBesCVeIULbC_UbQsA9udyp1io9vs41JOfAEHTAAEwE5gczhcREUhkUOkejoZisGAcY1SahdqCKXj8IQC1gEchqC-GYxmIQAPiYUgAnDe3caMLQWAwDw6CPhoWg6HoYHPnAphrlYth2I4mpODA1oHOuhr_oBwGgQYEG6PoT6PC-8E2Eh-CJmkEQmFkADCig4lAUgHFAADy7jPGQt6ctyoSYG6t4NEUJTxHqQbBsa8aalgaTIS4rEACpXFQ2hQGQ85gIuzzkL-4gruYzgjPY-CsQAkmAUB7KGFAaQuS5rgUBnySM4ImUAA
+	请注意，该图表不是 Apache ECharts 官方示例，而是由用户代码生成的。请注意鉴别其内容。
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, '', {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+    
+    var option;
+
+    const data = [];
+for (let i = 0; i < 5; ++i) {
+  data.push(Math.round(Math.random() * 200));
+}
+
+
+option = {
+  xAxis: {
+    max: 'dataMax'
+  },
+  yAxis: {
+    type: 'category',
+    data: ['南宁市', '桂林市', '百色市', '柳州市', '北海市'],
+    inverse: true,
+    animationDuration: 300,
+    animationDurationUpdate: 300,
+    max: 4 // only the largest 3 bars will be displayed
+  },
+  series: [
+    {
+      realtimeSort: true,
+      name: 'X',
+      type: 'bar',
+      data: data,
+      label: {
+        show: true,
+        position: 'right',
+        valueAnimation: true
+      }
+    }
+  ],
+  legend: {
+    show: true
+  },
+  animationDuration: 0,
+  animationDurationUpdate: 3000,
+  animationEasing: 'linear',
+  animationEasingUpdate: 'linear'
+};
+function run() {
+  for (var i = 0; i < data.length; ++i) {
+    if (Math.random() > 0.9) {
+      data[i] += Math.round(Math.random() * 2000);
+    } else {
+      data[i] += Math.round(Math.random() * 200);
+    }
+  }
+  myChart.setOption({
+    series: [
+      {
+        type: 'bar',
+        data
+      }
+    ]
+  });
+}
+setTimeout(function () {
+  run();
+}, 0);
+setInterval(function () {
+  run();
+}, 3000);
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+</html>
